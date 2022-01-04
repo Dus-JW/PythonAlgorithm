@@ -38,7 +38,7 @@ int main(void)
 	cin.tie(0);
 	int n,m;
 	int max = 0;
-	int	count;
+	int	count = 0;
 	int area;
 
 	cin >> n >> m;
