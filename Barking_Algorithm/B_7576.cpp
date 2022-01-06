@@ -8,12 +8,22 @@ int n,m;
 int board[1002][1002];
 int dist[1002][1002];
 
-int	q_zero = 0;
-
 int dx[4] = {1, 0, -1, 0};
 int dy[4] = {0, 1, 0, -1};
 
-void ft_BFS(queue<pair<int,int> > &Q, int n, int m)
+void	ft_dist_print()
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			cout << dist[i][j] << " ";
+		}
+		cout << '\n';
+	}
+}
+
+void	ft_BFS(queue<pair<int,int> > &Q, int n, int m)
 {
 	int	count = 0;
 	int	dir;
@@ -54,8 +64,9 @@ int main(void)
 				dist[i][j] = -1;
 		}
 	}
+	ft_dist_print();
 	ft_BFS(Q,n,m);
-	
+	ft_dist_print();
 	for (int i = 0; i < n; i++)
 	{
 		for (int j = 0; j < m; j++)
