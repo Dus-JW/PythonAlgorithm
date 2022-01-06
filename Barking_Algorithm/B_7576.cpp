@@ -13,17 +13,19 @@ int	q_zero = 0;
 int dx[4] = {1, 0, -1, 0};
 int dy[4] = {0, 1, 0, -1};
 
-int ft_BFS(queue<pair<int,int> &Q, int n, int m)
+int ft_BFS(queue<pair<int,int> > &Q, int n, int m)
 {
 	int	count = 0;
+	int	dir;
+
 	while (!Q.empty())
 	{
 		pair<int,int> cur = Q.front();
 		Q.pop();
-		for (int dir = 0; dir < 4; dir++)
+		for (dir = 0; dir < 4; dir++)
 		{
 			int nx = cur.X + dx[dir];
-			int ny = cur.Y + du[dir];
+			int ny = cur.Y + dy[dir];
 			if (nx < 0 || nx >= n || ny < 0 || ny >= m)
 				continue ;
 			if (dist[nx][ny] >= 1 || board[nx][ny] == -1)
@@ -31,9 +33,17 @@ int ft_BFS(queue<pair<int,int> &Q, int n, int m)
 			dist[nx][ny] = dist[cur.X][cur.Y] + 1;
 			Q.push(make_pair(nx,ny));
 		}
-		if (dir == 4)
-			break;
-		count++;
+		cout << "----------\n";
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = 0; j < m; j++)
+			{
+				cout << dist[i][j] << ' ';
+			}
+			cout << "\n";
+		}
+		cout << "----------\n\n";
+		count = dist[cur.X][cur.Y];
 	}
 	return (count);
 }
@@ -42,8 +52,9 @@ int main(void)
 {
 	ios::sync_with_stdio(0);
 	cin.tie(0);
+	int	count = 0;
 	queue<pair<int,int> > Q;
-	cin >> n >> m;
+	cin >> m >> n;
 	for (int i = 0; i < n; i++)
 	{
 		for (int j = 0; j < m; j++)
@@ -55,26 +66,14 @@ int main(void)
 	{
 		for (int j = 0; j < m; j++)
 		{
-			if (board[i][j] == 0)
+			if (board[i][j] == 1)
 			{
+				dist[i][j] = 1;
 				Q.push(make_pair(i,j));
-				int cnt = ft_BFS(Q,n,m);
-				if (cnt == 0)
-				{
-					cout << -1;
-					return (0);
-				}
-				q_zero++;
-			}
-			else if (board[i][j] == 1)
-			{
-				Q.push(make_pair(i,j);
+				count = ft_BFS(Q,n,m);
 			}
 		}
 	}
-	if (q_zero == 0)
-	{
-		cout << 0;
-		return (0);
-	}
+	cout << count - 1;
+	return (0);
 }
