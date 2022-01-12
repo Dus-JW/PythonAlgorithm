@@ -6,96 +6,87 @@ using namespace std;
 
 int			n,m;
 string		board[1001];
-string		dist[1001];
-int			real_max;
+int			dist1[1001][1001];
+int			dist2[1001][1001];
 
 int dx[4] = {1, 0, -1, 0};
 int dy[4] = {0, 1, 0, -1};
 
-void	ft_BFS(queue<pair<char,char> > &JQ, queue<pair<char,char> > &FQ, int n, int m)
+int	ft_BFS(queue<pair<int,int> > &JQ, queue<pair<int,int> > &FQ, int n, int m)
 {
 	while (!FQ.empty())
 	{
-		pair<char,char> cur2 = FQ.front();
+		pair<int,int> cur = FQ.front();
 		FQ.pop();
 		for (int dir = 0; dir < 4; dir++)
 		{
-			int nx = cur2.X + dx[dir];
-			int ny = cur2.Y + dy[dir];
+			int nx = cur.X + dx[dir];
+			int ny = cur.Y + dy[dir];
 			if (nx < 0 || nx >= n || ny < 0 || ny >= m)
                 continue ;
-            if (dist[nx][ny] >= 1 || dist[nx][ny] == -1)
+            if (dist1[nx][ny] >= 0 || board[nx][ny] == '#')
                 continue ; 
-            dist[nx][ny] = dist[cur2.X][cur2.Y] + 1;
+            dist1[nx][ny] = dist1[cur.X][cur.Y] + 1;
             FQ.push(make_pair(nx,ny));
 		}
 	}
 	while (!JQ.empty())
 	{
-		pair<char,char> cur1 = JQ.front();
+		pair<int,int> cur = JQ.front();
 		JQ.pop();
 		for (int dir = 0; dir < 4; dir++)
 		{
-			int nx = cur1.X + dx[dir];
-			int ny = cur1.Y + dy[dir];
+			int nx = cur.X + dx[dir];
+			int ny = cur.Y + dy[dir];
 			if (nx < 0 || nx >= n || ny < 0 || ny >= m)
+			{
+				cout << dist2[cur.X][cur.Y] + 1;
+				return (-1);
+			}
+			if (dist2[nx][ny] >= 0 || board[nx][ny] == '#')
 				continue;
-			if (dist[nx][ny] >= 1 || dist[nx][ny] == -1)
+			if (dist1[nx][ny] != -1 && dist1[nx][ny] <= dist2[cur.X][cur.Y] + 1)
 				continue;
-			dist[nx][ny] = dist[cur1.X][cur1.Y] + 1;
+			dist2[nx][ny] = dist2[cur.X][cur.Y] + 1;
 			JQ.push(make_pair(nx,ny));
 		}
 	}
+	return (0);
 }
 
 int main(void)
 {
 	ios::sync_with_stdio(0);
 	cin.tie(0);
-	queue<pair<char,char> > JQ;
-	queue<pair<char,char> > FQ;
+	queue<pair<int,int> > JQ;
+	queue<pair<int,int> > FQ;
 
 	cin >> n >> m;
-	getchar();
 	for (int i = 0; i < n; i++)
 	{
-		getline(cin, board[i]);
+		fill(dist1[i], dist1[i] + m, -1);
+		fill(dist2[i], dist2[i] + m, -1);
+	}
+	for (int i = 0; i < n; i++)
+		cin >> board[i];
+	for (int i = 0; i < n; i++)
+	{
 		for (int j = 0; j < m; j++)
 		{
+			if (board[i][j] == 'F')
+			{
+				FQ.push(make_pair(i,j));
+				dist1[i][j] = 0;
+			}
 			if (board[i][j] == 'J')
 			{
-				dist[i][j] = 1;
 				JQ.push(make_pair(i,j));
-			}
-			else if (board[i][j] == 'F')
-			{
-				dist[i][j] = 1;
-				FQ.push(make_pair(i,j));
-			}
-			else if (board[i][j] == '.')
-			{
-				dist[i][j] = 0;
-			}
-			else if (board[i][j] == '#')
-			{
-				dist[i][j] = -1;
+				dist2[i][j] = 0;
 			}
 		}
 	}
-	ft_BFS(JQ, FQ, n, m);
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < m; j++)
-		{
-			if (dist[i][j] == 0)
-			{
-				cout << "IMPOSSIBLE\n";
-				return (0);
-			}
-			if (dist[i][j] > real_max)
-				real_max = dist[i][j];
-		}
-	}
-	cout << real_max - 1;
+	if (ft_BFS(JQ, FQ, n, m) == -1)
+		return (0);
+	cout << "IMPOSSIBLE\n";
 	return (0);
 }
