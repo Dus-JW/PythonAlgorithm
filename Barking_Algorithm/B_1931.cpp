@@ -31,6 +31,7 @@ int main(void)
 	int t = 0;
 	for (int i = 0; i < n; i++)
 	{
+		cout << arr[i].X << " " << arr[i].Y << endl;
 		if (t <= arr[i].X)
 		{
 			t = arr[i].Y;
