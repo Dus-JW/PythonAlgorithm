@@ -1,21 +1,17 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void	BackTracking(int n, int m, int k)
+int	k = 1;
+
+void	BackTracking(int n, int m, int h)
 {
-	if (m == 0)
-		return ;
-	int t;
-	for (int i = 1; i < n + 1; i++)
+	cout << h << ' ';
+	if (m <= 1)
 	{
-		cout << i << ' ';
-		t = m;
-		BackTracking(n,m-1,k+1);
-		m = t;
 		cout << '\n';
-		if (k++ < n)
-			continue;
+		return ;
 	}
+	BackTracking(n,m-1,k);
 	return ;
 }
 
@@ -26,6 +22,18 @@ int main(void)
 	int n,m,h;
 
 	cin >> n >> m;
-	BackTracking(n,m,1);
+	h = 1;
+	for (int i = 1; i < n + 1; i++)
+	{
+		BackTracking(n,m,i);
+		if (k < n)
+		{
+			k++;
+			i--;
+			continue ;
+		}
+		else
+			k = 1;
+	}
 	return (0);
 }
