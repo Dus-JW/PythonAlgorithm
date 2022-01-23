@@ -1,13 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int arr[10];
-int n,m;
-bool issued[10];
+int		n,m;
+int		arr[10];
+bool	issued[10];
 
-void func(int k)
+void	func(int k)
 {
-	if (k == m)
+	if (m == k)
 	{
 		for (int i = 0; i < m; i++)
 		{
@@ -19,7 +19,7 @@ void func(int k)
 
 	for (int i = 1; i <= n; i++)
 	{
-		if (!(issued[i]))
+		if (!issued[i])
 		{
 			arr[k] = i;
 			issued[i] = 1;
