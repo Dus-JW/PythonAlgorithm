@@ -23,7 +23,8 @@ void	func(int k)
 		{
 			arr[k] = i;
 			issued[i] = 1;
-			func(k+1);
+			if (k == 0 || arr[k - 1] < i)
+				func(k + 1);
 			issued[i] = 0;
 		}
 	}
