@@ -21,23 +21,27 @@ bool	is_possible_col_row(int col)
 	return (true);
 }
 
-bool	is_possible_diag(int row, int col)
+bool	is_possible_diag(int col, int row, int x)
 {
-	if (i_visit[row][col] == 1 || row > n || row < 0 || col > n || col < 0)
-		return (false);
-	else
+	int d1,d2;
+	for (int i = 0; i < 4; i++)
 	{
-		for (int i = 0; i < 4; i++)
+		d1 = dist1[i];
+		d2 = dist2[i];
+		for (int j = 0; j < n; j++)
 		{
-			if (issued[row + dist1[i]][col + dist2[i]] == 1)
+			cout << "col : " << col << ", row :" << row << "it 's d1 d2 :" << d1 << ' ' << d2 << endl;
+			if (col + d1 > n || col + d1 < 0 || row + d2 > n || row + d2 < 0)
+				break ;
+			else if (issued[col+ d1][row + d2] == 1)
 			{
 				find_wrong = false;
 				return (false);
 			}
 			else
 			{
-				i_visit[row][col] = 1;	
-				is_possible_diag(row + dist1[i], col + dist2[i]);
+				d1 += dist1[i];
+				d2 += dist2[i];
 			}
 		}
 	}
@@ -49,11 +53,6 @@ bool	is_possible_diag(int row, int col)
 
 void	func(int k)
 {
-	for (int t1 = 0; t1 < 31; t1++)
-	{
-		for (int t2 = 0; t2 < 31; t2++)
-			i_visit[t1][t2] = 0;
-	}
 	cout << k << endl;
 	if (k == n)
 	{
@@ -69,33 +68,27 @@ void	func(int k)
 		cnt++;
 		return ;
 	}
-	for (int i = k ; i < n; i++)
+	for (int j = 0; j < n; j++)
 	{
-		for (int j = 0; j < n; j++)
+		cout << "---------------" << k << ' ' << j << "------------------\n"; 
+		find_wrong = true;
+		if (is_possible_col_row(j) && is_possible_diag(k,j,0))
 		{
-			find_wrong = true;
-			if (is_possible_col_row(j) && is_possible_diag(i,j))
+			cout << k << ' ' << j << " : " << k << endl;
+			arr[k][j] = 1;
+			issued[k][j] = 1;
+			for (int i = 0; i < n; i++)
 			{
-				cout << i << ' ' << j << " : " << k << endl;
-				arr[i][j] = 1;
-				issued[i][j] = 1;
-				for (int i = 0; i < n; i++)
+				for (int j = 0; j < n; j++)
 				{
-					for (int j = 0; j < n; j++)
-					{
-						cout << arr[i][j] << ' ';
-					}
-					cout << '\n';
+					cout << arr[i][j] << ' ';
 				}
-				cout << "-------\n";
-				func(k + 1);
-				issued[i][j] = 0;
+				cout << '\n';
 			}
-			for (int t1 = 0; t1 < 31; t1++)
-			{
-				for (int t2 = 0; t2 < 31; t2++)
-					i_visit[t1][t2] = 0;
-			}
+			cout << "-------\n";
+			func(k + 1);
+			arr[k][j] = 0;
+			issued[k][j] = 0;
 		}
 	}
 }
