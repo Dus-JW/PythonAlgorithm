@@ -4,29 +4,23 @@ using namespace std;
 
 int		n;
 int		cnt;
-int		arr[31][31];
-bool	issued[31][31];
-bool	i_visit[31][31];
+int		arr[15][15];
+bool	issued[15][15];
+bool	i_visit[15][15];
 int		dist1[4] = {-1, -1, 1 ,1};
 int		dist2[4] = {-1, 1, -1, 1};
-bool	find_wrong = false;
 
 bool	is_possible_col_row(int col, int row)
 {
 	for (int i = 0; i < n; i++)
 	{
-		if (issued[col][i] == 1)
-			return (false);
-	}
-	for (int i = 0; i < n; i++)
-	{
-		if (issued[i][row] == 1)
+		if (issued[col][i] == 1 || issued[i][row] == 1)
 			return (false);
 	}
 	return (true);
 }
 
-bool	is_possible_diag(int col, int row, int x)
+bool	is_possible_diag(int col, int row)
 {
 	int d1,d2;
 	for (int i = 0; i < 4; i++)
@@ -38,10 +32,7 @@ bool	is_possible_diag(int col, int row, int x)
 			if (col + d1 > n || col + d1 < 0 || row + d2 > n || row + d2 < 0)
 				break ;
 			else if (issued[col+ d1][row + d2] == 1)
-			{
-				find_wrong = false;
 				return (false);
-			}
 			else
 			{
 				d1 += dist1[i];
@@ -49,10 +40,7 @@ bool	is_possible_diag(int col, int row, int x)
 			}
 		}
 	}
-	if (find_wrong == false)
-		return (false);
-	else
-		return (true);
+	return (true);
 }
 
 void	func(int k)
@@ -64,8 +52,7 @@ void	func(int k)
 	}
 	for (int j = 0; j < n; j++)
 	{
-		find_wrong = true;
-		if (is_possible_col_row(k,j) && is_possible_diag(k,j,0))
+		if (is_possible_col_row(k,j) && is_possible_diag(k,j))
 		{
 			arr[k][j] = 1;
 			issued[k][j] = 1;
