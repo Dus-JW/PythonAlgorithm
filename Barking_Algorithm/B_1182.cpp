@@ -2,33 +2,43 @@
 #include <algorithm>
 using namespace std;
 
-int		n,s,m =5;
-int		store[21];
+int		n,s,m = 1;
+int		t;
 int		arr[21];
+int		store[21];
 bool	issued[21];
 
 void func(int k)
 {
-	if (k <= m)
+	if (k == m)
 	{
-		for (int i = k; i < m; i++)
+		for (int i = 0; i < m; i++)
 		{
-			cout << arr[i] << ' ';
+			cout << store[i] << ' ';
 		}
 		cout << '\n';
 		return ;
 	}
 
-	for (int i = 0; i <= n; i++)
+	for (int i = 0; i < n; i++)
 	{
+		t = i;
 		if (!(issued[i]))
 		{
-			arr[k] = store[i];
+			store[k] = arr[i];
 			issued[i] = 1;
-			if (k == 0 || arr[k - 1] < i)
+			if (k == 0 || arr[k - 1] < arr[i])
 				func(k+1);
 			issued[i] = 0;
 		}
+	}
+	if (m < n && store[0] == arr[t])
+	{
+		for (int i = 0; i < n; i++)
+			issued[i] = 0;
+		m++;
+		k = 0;
+		func(k);
 	}
 }
 
@@ -40,7 +50,7 @@ int main(void)
 	cin >> n >> s;
 	getchar();
 	for (int i = 0; i < n; i++)
-		cin >> store[i];
+		cin >> arr[i];
 	func(0);
 	return (0);
 }
