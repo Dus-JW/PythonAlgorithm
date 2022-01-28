@@ -9,9 +9,9 @@ bool	issued[21];
 
 void func(int k)
 {
-	if (k == m)
+	if (k <= m)
 	{
-		for (int i = 0; i < m; i++)
+		for (int i = k; i < m; i++)
 		{
 			cout << arr[i] << ' ';
 		}
