@@ -39,13 +39,13 @@ void func(int k, int k2)
 			issued[i] = 0;
 		}
 	}
-	if (m < n && k2 == n - 1)
+	if (m < n && store[0] == arr[t])
 	{
 		for (int i = 0; i < n; i++)
 			issued[i] = 0;
 		m++;
 		k = 0;
-		func(k, n - 1);
+		func(k, 0);
 	}
 }
 
@@ -58,7 +58,7 @@ int main(void)
 	getchar();
 	for (int i = 0; i < n; i++)
 		cin >> arr[i];
-	func(0, n - 1);
+	func(0, 0);
 	cout << cnt << '\n';
 	cout << s_cnt << '\n';
 	return (0);
