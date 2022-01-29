@@ -4,11 +4,11 @@ using namespace std;
 int		n,s,m = 1;
 int		t;
 int		cnt;
-int		arr[21];
-int		store[21];
-bool	issued[21];
-
-void func(int k)
+int		arr[22];
+int		store[22];
+bool	issued[22];
+long long		s_cnt;
+void func(int k, int k2)
 {
 	if (k == m)
 	{
@@ -19,6 +19,7 @@ void func(int k)
 			total += store[i];
 		}
 		cout << '\n';
+		s_cnt++;
 		if (total == s)
 		{
 			cnt++;
@@ -33,18 +34,18 @@ void func(int k)
 		{
 			store[k] = arr[i];
 			issued[i] = 1;
-			if (k == 0 || store[k - 1] < store[k])
-				func(k+1);
+			if (k == 0 || k2 < i)
+				func(k+1 , t);
 			issued[i] = 0;
 		}
 	}
-	if (m < n && store[0] == arr[t])
+	if (m < n && k2 == n - 1)
 	{
 		for (int i = 0; i < n; i++)
 			issued[i] = 0;
 		m++;
 		k = 0;
-		func(k);
+		func(k, n - 1);
 	}
 }
 
@@ -57,8 +58,8 @@ int main(void)
 	getchar();
 	for (int i = 0; i < n; i++)
 		cin >> arr[i];
-	sort(arr, arr + n);
-	func(0);
+	func(0, n - 1);
 	cout << cnt << '\n';
+	cout << s_cnt << '\n';
 	return (0);
 }

@@ -12,11 +12,6 @@ void func(int nx,int x)
 
 	if (sum == s && nx != 0)		
 	{
-		for (int i = 0;i < n; i++)
-		{
-			cout << arr[i] << "-----" << sum << ' ';
-		}
-		cout <<'\n';
 		cnt++;
 	}
 
