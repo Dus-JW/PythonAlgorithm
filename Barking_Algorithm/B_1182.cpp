@@ -7,7 +7,9 @@ int		cnt;
 int		arr[22];
 int		store[22];
 bool	issued[22];
-long long		s_cnt;
+
+bool	conf = false;
+
 void func(int k, int k2)
 {
 	if (k == m)
@@ -15,11 +17,8 @@ void func(int k, int k2)
 		int total = 0;
 		for (int i = 0; i < m; i++)
 		{
-			cout << store[i] << ' ';
 			total += store[i];
 		}
-		cout << '\n';
-		s_cnt++;
 		if (total == s)
 		{
 			cnt++;
@@ -37,14 +36,17 @@ void func(int k, int k2)
 			if (k == 0 || k2 < i)
 				func(k+1 , t);
 			issued[i] = 0;
+			if (k == 0 && i == n - 1)
+				conf = false;
 		}
 	}
-	if (m < n && store[0] == arr[t])
+	if (m < n && !conf)
 	{
 		for (int i = 0; i < n; i++)
 			issued[i] = 0;
 		m++;
 		k = 0;
+		conf = true;
 		func(k, 0);
 	}
 }
@@ -60,6 +62,5 @@ int main(void)
 		cin >> arr[i];
 	func(0, 0);
 	cout << cnt << '\n';
-	cout << s_cnt << '\n';
 	return (0);
 }
