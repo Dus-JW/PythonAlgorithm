@@ -27,7 +27,7 @@ void func(int k)
 		{
 			store[k] = arr[i];
 			issued[i] = 1;
-			if (k == 0 || arr[k - 1] < arr[i])
+			if (k == 0 || store[k - 1] < arr[i])
 				func(k+1);
 			issued[i] = 0;
 		}
