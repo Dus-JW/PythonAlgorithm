@@ -1,9 +1,9 @@
-#include <iostream>
-#include <algorithm>
+#include <bits/stdc++.h>
 using namespace std;
 
 int		n,s,m = 1;
 int		t;
+int		cnt;
 int		arr[21];
 int		store[21];
 bool	issued[21];
@@ -12,11 +12,17 @@ void func(int k)
 {
 	if (k == m)
 	{
+		int total = 0;
 		for (int i = 0; i < m; i++)
 		{
 			cout << store[i] << ' ';
+			total += store[i];
 		}
 		cout << '\n';
+		if (total == s)
+		{
+			cnt++;
+		}
 		return ;
 	}
 
@@ -27,7 +33,7 @@ void func(int k)
 		{
 			store[k] = arr[i];
 			issued[i] = 1;
-			if (k == 0 || store[k - 1] < arr[i])
+			if (k == 0 || store[k - 1] < store[k])
 				func(k+1);
 			issued[i] = 0;
 		}
@@ -51,6 +57,8 @@ int main(void)
 	getchar();
 	for (int i = 0; i < n; i++)
 		cin >> arr[i];
+	sort(arr, arr + n);
 	func(0);
+	cout << cnt << '\n';
 	return (0);
 }
