@@ -23,9 +23,18 @@ bool	is_right(int col, int row)
 	return (true);
 }
 
-void	sudoku(int k)
+bool	is_not_remain(int k)
+{
+	for (int i = 0; i < 9; i++)
+	{
+		if (!isused[k][i])
+			return (false);
+	}
+	return (true);
+}
 
-	int t = 0;
+void	sudoku(int k)
+{
 	if (k == 9)
 	{
 		for (int i = 0; i < 9; i++)
@@ -36,22 +45,20 @@ void	sudoku(int k)
 			}
 			cout << '\n';
 		}
-		cout << "--------------------\n";
 		return ;
 	}
 	for (int i = 0; i < 9; i++)
 	{
-		for (int j = k; j < 9; j++)
+		if (!isused[k][i])
 		{
-			if (!isused[i][j])
+			for (int j = 1; j < 10; j++)
 			{
-				cout << i << ' ' << j << '\n';
-				board[i][j] = k + 1;
+				board[k][i] = j;
 				isused[k][i] = true;
-				if (is_right(k,i))
+				if (is_right(k,i) && is_not_remain(k))
 					sudoku(k + 1);
-				board[k][i] = 0;
-				isused[k][i] = false;
+				else if (is_right(k,i) && !(is_not_remain(k)))
+					break ;
 			}
 		}
 	}
@@ -71,6 +78,7 @@ int main(void)
 				isused[i][j] = true;
 		}
 	}
+	cout << "\n\n";
 	sudoku(0);
 	return (0);
 }
