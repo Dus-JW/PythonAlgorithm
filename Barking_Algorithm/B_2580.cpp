@@ -24,7 +24,7 @@ bool	is_right(int col, int row)
 }
 
 void	sudoku(int k)
-{
+
 	int t = 0;
 	if (k == 9)
 	{
@@ -41,15 +41,18 @@ void	sudoku(int k)
 	}
 	for (int i = 0; i < 9; i++)
 	{
-		if (!isused[k][i])
+		for (int j = k; j < 9; j++)
 		{
-			cout << k << ' ' << i << '\n';
-			board[k][i] = i + 1;
-			isused[k][i] = true;
-			if (is_right(k,i))
-				sudoku(k + 1);
-			board[k][i] = 0;
-			isused[k][i] = false;
+			if (!isused[i][j])
+			{
+				cout << i << ' ' << j << '\n';
+				board[i][j] = k + 1;
+				isused[k][i] = true;
+				if (is_right(k,i))
+					sudoku(k + 1);
+				board[k][i] = 0;
+				isused[k][i] = false;
+			}
 		}
 	}
 }
