@@ -23,6 +23,40 @@ bool	is_right(int col, int row)
 	return (true);
 }
 
+void	is_right2(int col, int row)
+{
+	int		how_many = 0;
+	int		c = 0;
+	int		r = 0;
+	bool	checking[10] = {false,};
+
+	for (int i = row; i < row + 3; i++)
+	{
+		for (int j = col; j < col + 3; j++)
+		{
+			if (isused[i][j])
+			{
+				checking[board[i][j]] = true;
+				how_many++;
+			}
+			else
+			{
+				c = i;
+				r = j;
+			}
+		}
+	}
+	if (how_many != 8)
+		return ;
+	for (int i = 1; i < 10; i++)
+	{
+		if (!checking[i])
+		{
+			board[c][r] = i;
+		}
+	}
+}
+
 bool	is_not_remain(int k)
 {
 	for (int i = 0; i < 9; i++)
@@ -78,7 +112,13 @@ int main(void)
 				isused[i][j] = true;
 		}
 	}
-	cout << "\n\n";
+	for (int i = 0; i < 9; i += 3)
+	{
+		for (int j = 0; j < 9; j += 3)
+		{
+			is_right2(i,j);
+		}
+	}
 	sudoku(0);
 	return (0);
 }
