@@ -23,38 +23,21 @@ bool	is_right(int col, int row)
 	return (true);
 }
 
-void	is_right2(int col, int row)
+bool	is_right2(int col, int row)
 {
-	int		how_many = 0;
-	int		c = 0;
-	int		r = 0;
-	bool	checking[10] = {false,};
-
-	for (int i = row; i < row + 3; i++)
+	int	r = (row / 3) * 3;
+	int	c = (col / 3) * 3;
+	for (int i = c; i < c + 3; i++)
 	{
-		for (int j = col; j < col + 3; j++)
+		for (int j = r; j < r + 3; j++)
 		{
-			if (isused[i][j])
-			{
-				checking[board[i][j]] = true;
-				how_many++;
-			}
-			else
-			{
-				c = i;
-				r = j;
-			}
+			if (i == col && j == row)
+				continue ;
+			else if (board[col][row] == board[i][j])
+				return (false);
 		}
 	}
-	if (how_many != 8)
-		return ;
-	for (int i = 1; i < 10; i++)
-	{
-		if (!checking[i])
-		{
-			board[c][r] = i;
-		}
-	}
+	return (true);
 }
 
 bool	is_not_remain(int k)
@@ -89,10 +72,12 @@ void	sudoku(int k)
 			{
 				board[k][i] = j;
 				isused[k][i] = true;
-				if (is_right(k,i) && is_not_remain(k))
+				if (is_right(k,i) && is_right2(k,i) && is_not_remain(k))
 					sudoku(k + 1);
-				else if (is_right(k,i) && !(is_not_remain(k)))
+				else if (is_right(k,i) && is_right2(k,i) && !(is_not_remain(k)))
 					break ;
+				board[k][i] = 0;
+				isused[k][i] = false;
 			}
 		}
 	}
@@ -110,13 +95,6 @@ int main(void)
 			cin >> board[i][j];
 			if (board[i][j] != 0)
 				isused[i][j] = true;
-		}
-	}
-	for (int i = 0; i < 9; i += 3)
-	{
-		for (int j = 0; j < 9; j += 3)
-		{
-			is_right2(i,j);
 		}
 	}
 	sudoku(0);
