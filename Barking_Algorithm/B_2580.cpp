@@ -62,7 +62,7 @@ void	sudoku(int k)
 			}
 			cout << '\n';
 		}
-		return ;
+		exit(0) ;
 	}
 	for (int i = 0; i < 9; i++)
 	{
@@ -74,8 +74,10 @@ void	sudoku(int k)
 				isused[k][i] = true;
 				if (is_right(k,i) && is_right2(k,i) && is_not_remain(k))
 					sudoku(k + 1);
-				else if (is_right(k,i) && is_right2(k,i) && !(is_not_remain(k)))
-					break ;
+				else if (is_right(k,i) && is_right2(k,i) && !is_not_remain(k))
+				{
+					sudoku(k);
+				}
 				board[k][i] = 0;
 				isused[k][i] = false;
 			}
